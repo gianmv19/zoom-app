@@ -1,26 +1,157 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* -----------------------------
+   Dark mode variant
+------------------------------ */
+@custom-variant dark (&:is(.dark *));
 
+/* -----------------------------
+   Design tokens (Tailwind v4)
+------------------------------ */
 @theme inline {
+  /* Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  /* Custom palette */
+  --color-dark-1: #1c1f2e;
+  --color-dark-2: #161925;
+  --color-dark-3: #252a41;
+  --color-dark-4: #1e2757;
+
+  --color-blue-1: #0e78f9;
+  --color-orange-1: #ff742e;
+  --color-purple-1: #830ef9;
+  --color-yellow-1: #f9a90e;
+
+  /* Typography */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* -----------------------------
+   Light / Dark themes
+------------------------------ */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --border: oklch(0.9 0.01 264);
+  --ring: oklch(0.6 0.1 264);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.3 0.01 264);
+  --ring: oklch(0.7 0.1 264);
+}
+
+/* -----------------------------
+   Base styles
+------------------------------ */
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* -----------------------------
+   Utilities (v4 way)
+------------------------------ */
+@utility flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@utility flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+}
+
+@utility glass-dark {
+  background: rgba(18, 17, 17, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+@utility bg-hero {
+  background-image: url("/images/hero-background.png");
+  background-size: cover;
+  background-position: center;
+}
+
+/* -----------------------------
+   Animations
+------------------------------ */
+@keyframes accordion-down {
+  from { height: 0 }
+  to { height: var(--radix-accordion-content-height) }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height) }
+  to { height: 0 }
+}
+
+@utility animate-accordion-down {
+  animation: accordion-down 0.25s ease-out;
+}
+
+@utility animate-accordion-up {
+  animation: accordion-up 0.25s ease-out;
+}
+
+/* -----------------------------
+   Stream Video overrides
+------------------------------ */
+.str-video__participant-list {
+  background-color: var(--color-dark-1);
+  border-radius: 0.75rem;
+  color: white;
+}
+
+/* -----------------------------
+   Clerk overrides (safe ones)
+------------------------------ */
+img.cl-providerIcon__apple {
+  filter: invert(1);
+}
+
+.cl-userButtonPopoverActionButton,
+.cl-userButtonPopoverActionButtonIcon {
+  color: white;
+}
+
+.cl-userButtonPopoverActionButton:hover {
+  color: #0e78f9;
+}
+
+.cl-userButtonPopoverActionButton__signOut:hover {
+  color: #ff0000 !important;
+}
+
+.cl-dividerLine {
+  background: var(--color-dark-3);
+  height: 2px;
 }
